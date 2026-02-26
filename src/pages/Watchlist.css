@@ -1,0 +1,24 @@
+.watchlist-page {
+  margin-top: 100px;
+  min-height: 80vh;
+}
+
+.watchlist-title {
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+.empty-text {
+  color: #7C7C92;
+  margin-top: 40px;
+  text-align: center;
+}
+
+.explore-link {
+  color: #3B82F6;
+  text-decoration: none;
+}
+
+.explore-link:hover {
+  text-decoration: underline;
+}
