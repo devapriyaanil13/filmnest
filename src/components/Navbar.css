@@ -1,24 +1,18 @@
 .navbar {
+  background: black;
+  border-bottom: 2px solid var(--gold);
+  padding: 20px 100px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 25px 60px;
-  background: #111827;
 }
 
 .logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #8b5cf6;
+  color: var(--gold);
+  font-size: 28px;
 }
 
 .nav-links a {
-  margin-left: 30px;
+  margin-left: 40px;
+  color: var(--text);
   text-decoration: none;
-  color: #f9fafb;
-  transition: 0.3s;
-}
-
-.nav-links a:hover {
-  color: #22d3ee;
 }

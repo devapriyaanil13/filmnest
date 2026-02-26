@@ -1,24 +1,24 @@
 import axios from "axios";
 
-const API_KEY = import.meta.env.VITE_YOUTUBE_KEY;
+const API_KEY = "YOUR_YOUTUBE_API_KEY";
 const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
 
-// Get Trailer Video
+// Get Trailer by Movie Title
 export const getTrailer = async (title) => {
   try {
-    const response = await axios.get(BASE_URL, {
+    const res = await axios.get(BASE_URL, {
       params: {
         part: "snippet",
         q: `${title} official trailer`,
-        type: "video",
-        maxResults: 1,
         key: API_KEY,
+        maxResults: 1,
+        type: "video",
       },
     });
 
-    return response.data.items[0];
+    return res.data.items[0];
   } catch (error) {
-    console.error("YouTube API error:", error);
+    console.error("YouTube Error:", error);
     throw error;
   }
 };

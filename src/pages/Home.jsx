@@ -1,82 +1,85 @@
 import { useEffect, useState } from "react";
-import { fetchShows } from "../services/tvmaze";
-import { getEntertainmentNews } from "../services/news";
+import { API } from "../services/api";
 import MovieCard from "../components/MovieCard";
 import "./Home.css";
 
-export default function Home() {
-  const [shows, setShows] = useState([]);
+function Home() {
+  const [movies, setMovies] = useState([]);
+  const [tvShows, setTvShows] = useState([]);
   const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [weather, setWeather] = useState(null);
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const showsData = await fetchShows();
-        const newsData = await getEntertainmentNews();
-
-        setShows(showsData);
-        setNews(newsData.slice(0, 6)); // limit news
-      } catch (error) {
-        console.error("Home page error:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     loadData();
   }, []);
 
-  if (loading) {
-    return <div className="container home-page">Loading...</div>;
-  }
+  const loadData = async () => {
+    const movieData = await API.movies.search("Avengers");
+    const tvData = await API.tv.search("Breaking");
+    const newsData = await API.news.entertainment();
+    const weatherData = await API.weather.current("London");
+
+    setMovies(movieData.slice(0, 6));
+    setTvShows(tvData.slice(0, 6));
+    setNews(newsData.slice(0, 4));
+    setWeather(weatherData);
+  };
 
   return (
-    <div className="container home-page">
+    <div>
 
-      {/* 🎬 Popular Shows Section */}
-      <h2 className="section-title">Popular Shows</h2>
+      {/* HERO */}
+      <section className="hero">
+        <h1>Discover Movies & Shows</h1>
+        <p>Your Premium OTT Discovery Magazine</p>
+      </section>
 
-      <div className="row">
-        {shows.map((show) => (
-          <MovieCard key={show.id} show={show} />
-        ))}
-      </div>
+      {/* MOVIES */}
+      <section className="section">
+        <h2>Trending Movies</h2>
+        <div className="movie-grid">
+          {movies.map((movie) => (
+            <MovieCard key={movie.imdbID} movie={movie} />
+          ))}
+        </div>
+      </section>
 
-      {/* 📰 Entertainment News Section */}
-      <h2 className="section-title mt-5">Latest Entertainment News</h2>
-
-      <div className="row">
-        {news.map((article, index) => (
-          <div key={index} className="col-md-4 mb-4">
-            <div className="news-card">
-
-              {article.urlToImage && (
-                <img
-                  src={article.urlToImage}
-                  alt={article.title}
-                  className="news-image"
-                />
-              )}
-
-              <div className="news-content">
-                <h6>{article.title}</h6>
-                <p>{article.description}</p>
-                <a
-                  href={article.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-sm btn-outline-light"
-                >
-                  Read More
-                </a>
-              </div>
-
+      {/* TV SHOWS */}
+      <section className="section">
+        <h2>Trending TV Shows</h2>
+        <div className="movie-grid">
+          {tvShows.map((show) => (
+            <div key={show.id} className="tv-card">
+              <img src={show.image?.medium} />
+              <h4>{show.name}</h4>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </section>
+
+      {/* NEWS */}
+      <section className="section">
+        <h2>Entertainment News</h2>
+        <div className="news-grid">
+          {news.map((article, i) => (
+            <div key={i} className="news-card">
+              <img src={article.urlToImage} />
+              <p>{article.title}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* WEATHER */}
+      {weather && (
+        <section className="section">
+          <h2>Weather in {weather.name}</h2>
+          <p>{weather.main.temp}°C</p>
+        </section>
+      )}
 
     </div>
   );
 }
+
+export default Home;

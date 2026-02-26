@@ -1,38 +1,43 @@
-// src/services/omdb.js
+import axios from "axios";
 
-const API_KEY = import.meta.env.VITE_OMDB_API_KEY;
+const API_KEY = "d772965a";
 const BASE_URL = "https://www.omdbapi.com/";
 
-/**
- * Fetch full movie/show details from OMDb using IMDb ID
- * @param {string} imdbID
- * @returns {Promise<Object|null>}
- */
-export async function getOMDbDetails(imdbID) {
-  if (!imdbID) {
-    console.error("No IMDb ID provided");
-    return null;
-  }
-
+// Search Movies
+export const searchMovies = async (query) => {
   try {
-    const response = await fetch(
-      `${BASE_URL}?i=${imdbID}&apikey=${API_KEY}&plot=full`
-    );
+    const res = await axios.get(BASE_URL, {
+      params: {
+        apikey: API_KEY,
+        s: query,
+      },
+    });
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch OMDb data");
+    if (res.data.Response === "False") {
+      return [];
     }
 
-    const data = await response.json();
-
-    if (data.Response === "False") {
-      console.error("OMDb API error:", data.Error);
-      return null;
-    }
-
-    return data;
+    return res.data.Search;
   } catch (error) {
-    console.error("OMDb fetch error:", error);
-    return null;
+    console.error("OMDB Search Error:", error);
+    throw error;
   }
-}
+};
+
+// Get Movie Details
+export const getMovieDetails = async (id) => {
+  try {
+    const res = await axios.get(BASE_URL, {
+      params: {
+        apikey: API_KEY,
+        i: id,
+        plot: "full",
+      },
+    });
+
+    return res.data;
+  } catch (error) {
+    console.error("OMDB Details Error:", error);
+    throw error;
+  }
+};

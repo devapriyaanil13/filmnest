@@ -1,22 +1,22 @@
 import axios from "axios";
 
-const API_KEY = import.meta.env.VITE_NEWS_KEY;
+const API_KEY = import.meta.env.VITE_NEWS_KEY;;
 const BASE_URL = "https://newsapi.org/v2/top-headlines";
 
-// Get Entertainment News
+// Entertainment News
 export const getEntertainmentNews = async () => {
   try {
-    const response = await axios.get(BASE_URL, {
+    const res = await axios.get(BASE_URL, {
       params: {
         category: "entertainment",
-        language: "en",
         apiKey: API_KEY,
+        country: "us",
       },
     });
 
-    return response.data.articles;
+    return res.data.articles;
   } catch (error) {
-    console.error("News API error:", error);
+    console.error("News API Error:", error);
     throw error;
   }
 };

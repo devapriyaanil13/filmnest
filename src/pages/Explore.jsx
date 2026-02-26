@@ -1,73 +1,76 @@
 import { useState } from "react";
-import { searchShows } from "../services/tvmaze";
-import { getOMDbDetails } from "../services/omdb";
+import { API } from "../services/api";
 import MovieCard from "../components/MovieCard";
 import "./Explore.css";
 
-export default function Explore() {
+function Explore() {
   const [query, setQuery] = useState("");
-  const [shows, setShows] = useState([]);
+  const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSearch = async () => {
-    if (!query.trim()) return;
-
-    setLoading(true);
-
     try {
-      const results = await searchShows(query);
+      if (!query.trim()) return;
 
-      // 🔥 Enhance each show with IMDb rating from OMDb
-      const enhancedResults = await Promise.all(
-        results.slice(0, 12).map(async (show) => {
-          try {
-            const omdbData = await getOMDbDetails(show.name);
-            return {
-              ...show,
-              imdbRating: omdbData.imdbRating,
-            };
-          } catch {
-            return show;
-          }
-        })
-      );
+      setLoading(true);
+      setError(null);
 
-      setShows(enhancedResults);
-    } catch (error) {
-      console.error("Search error:", error);
+      const results = await API.movies.search(query);
+
+      console.log("Search Results:", results); // Debug
+
+      setMovies(results || []);
+    } catch (err) {
+      console.error("Search failed:", err);
+      setError("Something went wrong. Please try again.");
+      setMovies([]);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="container explore-page">
+    <div className="explore">
+      <h1 className="explore-title">🔎 Explore Movies</h1>
 
-      <h2 className="explore-title">Search Shows</h2>
-
-      {/* 🔍 Search Bar */}
-      <div className="input-group search-bar">
+      {/* Search Form */}
+      <form
+        className="search-container"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSearch();
+        }}
+      >
         <input
           type="text"
-          className="form-control"
-          placeholder="Search TV shows..."
+          placeholder="Search movies like Batman, Titanic..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button className="btn btn-primary" onClick={handleSearch}>
-          Search
-        </button>
-      </div>
 
-      {loading && <p className="status-text">Searching...</p>}
+        <button type="submit">Search</button>
+      </form>
 
-      {/* 🎬 Results */}
-      <div className="row">
-        {shows.map((show) => (
-          <MovieCard key={show.id} show={show} />
+      {/* Loading */}
+      {loading && <p className="status-text">Loading...</p>}
+
+      {/* Error */}
+      {error && <p className="error-text">{error}</p>}
+
+      {/* No Results */}
+      {!loading && movies.length === 0 && query && (
+        <p className="status-text">No results found.</p>
+      )}
+
+      {/* Movie Grid */}
+      <div className="movie-grid">
+        {movies.map((movie) => (
+          <MovieCard key={movie.imdbID} movie={movie} />
         ))}
       </div>
-
     </div>
   );
 }
+
+export default Explore;

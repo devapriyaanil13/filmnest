@@ -1,24 +1,21 @@
-.movie-details {
-  margin-top: 100px;
-  min-height: 80vh;
+.details {
+  display: flex;
+  padding: 80px;
+  gap: 50px;
 }
 
-.details-poster {
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+.details img {
+  width: 350px;
+  border-radius: 15px;
 }
 
-.details-title {
-  font-weight: 700;
-  margin-bottom: 15px;
+.details-info {
+  max-width: 700px;
 }
 
-.details-overview {
-  color: #B4B4C7;
-  margin-bottom: 20px;
-  line-height: 1.6;
-}
-
-.details-info p {
-  margin-bottom: 8px;
+.tags span {
+  background: var(--glass);
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-right: 10px;
 }

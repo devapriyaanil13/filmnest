@@ -1,48 +1,35 @@
-import { Link } from "react-router-dom";
 import "./Footer.css";
+import { Link } from "react-router-dom";
 
-export default function Footer() {
+function Footer() {
   return (
-    <footer className="footer py-4 mt-5">
-      <div className="container">
+    <footer className="footer">
+      <div className="footer-container">
 
-        <div className="row text-center text-md-start">
-
-          {/* Logo Section */}
-          <div className="col-md-4 mb-3">
-            <h5 className="footer-logo">FilmNest</h5>
-            <p className="footer-text">
-              Discover trending movies and find where to watch them.
-            </p>
-          </div>
-
-          {/* Navigation Links */}
-          <div className="col-md-4 mb-3">
-            <h6 className="footer-heading">Quick Links</h6>
-            <ul className="list-unstyled">
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/explore">Explore</Link></li>
-              <li><Link to="/watchlist">Watchlist</Link></li>
-            </ul>
-          </div>
-
-          {/* Info Section */}
-          <div className="col-md-4 mb-3">
-            <h6 className="footer-heading">About</h6>
-            <p className="footer-text small">
-              Built with React, Vite, Bootstrap and TMDB API.
-            </p>
-          </div>
-
+        <div className="footer-brand">
+          <h2>FilmNest</h2>
+          <p>Discover trending movies and shows.</p>
         </div>
 
-        <hr className="footer-divider" />
-
-        <div className="text-center footer-bottom">
-          © {new Date().getFullYear()} FilmNest. All rights reserved.
+        <div className="footer-links">
+          <h4>Quick Links</h4>
+          <Link to="/">Home</Link>
+          <Link to="/explore">Explore</Link>
+          <Link to="/watchlist">Watchlist</Link>
         </div>
 
+        <div className="footer-about">
+          <h4>About</h4>
+          <p>Built with React, Vite & Multi APIs.</p>
+        </div>
+
+      </div>
+
+      <div className="footer-bottom">
+        © 2026 FilmNest. All rights reserved.
       </div>
     </footer>
   );
 }
+
+export default Footer;

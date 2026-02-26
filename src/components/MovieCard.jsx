@@ -3,23 +3,10 @@ import "./MovieCard.css";
 
 function MovieCard({ movie }) {
   return (
-    <div className="movie-card">
-      <Link to={`/movie/${movie.imdbID}`}>
-        <img
-          src={
-            movie.Poster !== "N/A"
-              ? movie.Poster
-              : "https://via.placeholder.com/300x450"
-          }
-          alt={movie.Title}
-        />
-      </Link>
-
-      <div className="movie-info">
-        <h3>{movie.Title}</h3>
-        <p>{movie.Year}</p>
-      </div>
-    </div>
+    <Link to={`/movie/${movie.imdbID}`} className="movie-card">
+      <img src={movie.Poster} />
+      <h4>{movie.Title}</h4>
+    </Link>
   );
 }
 
