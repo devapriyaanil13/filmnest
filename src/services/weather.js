@@ -1,22 +1,38 @@
 import axios from "axios";
 
-const API_KEY = "YOUR_OPENWEATHER_API_KEY";
-const BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
-
-// Get Weather by City
-export const getWeather = async (city) => {
+// Open-Meteo (No API Key Required)
+export const getWeather = async (city = "London") => {
   try {
-    const res = await axios.get(BASE_URL, {
-      params: {
-        q: city,
-        appid: API_KEY,
-        units: "metric",
-      },
-    });
+    // Step 1: Convert city name to coordinates
+    const geoRes = await axios.get(
+      "https://geocoding-api.open-meteo.com/v1/search",
+      {
+        params: {
+          name: city,
+          count: 1,
+        },
+      }
+    );
 
-    return res.data;
+    if (!geoRes.data.results) return null;
+
+    const { latitude, longitude } = geoRes.data.results[0];
+
+    // Step 2: Get weather using coordinates
+    const weatherRes = await axios.get(
+      "https://api.open-meteo.com/v1/forecast",
+      {
+        params: {
+          latitude,
+          longitude,
+          current_weather: true,
+        },
+      }
+    );
+
+    return weatherRes.data.current_weather;
   } catch (error) {
-    console.error("Weather API Error:", error);
-    throw error;
+    console.error("Open-Meteo Error:", error.message);
+    return null; // NEVER throw
   }
 };

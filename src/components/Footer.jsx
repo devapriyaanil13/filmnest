@@ -1,26 +1,27 @@
 import "./Footer.css";
-import { Link } from "react-router-dom";
 
 function Footer() {
   return (
     <footer className="footer">
       <div className="footer-container">
 
-        <div className="footer-brand">
-          <h2>FilmNest</h2>
-          <p>Discover trending movies and shows.</p>
+        <div>
+          <h3>FilmNest</h3>
+          <p>Your movie discovery platform.</p>
         </div>
 
-        <div className="footer-links">
-          <h4>Quick Links</h4>
-          <Link to="/">Home</Link>
-          <Link to="/explore">Explore</Link>
-          <Link to="/watchlist">Watchlist</Link>
+        <div>
+          <h4>Navigation</h4>
+          <p>Home</p>
+          <p>Explore</p>
+          <p>About</p>
+          <p>Contact</p>
         </div>
 
-        <div className="footer-about">
-          <h4>About</h4>
-          <p>Built with React, Vite & Multi APIs.</p>
+        <div>
+          <h4>Built With</h4>
+          <p>React + Vite</p>
+          <p>TMDB API</p>
         </div>
 
       </div>

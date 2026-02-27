@@ -1,4 +1,4 @@
-import * as omdb from "./omdb";
+import * as tmdb from "./tmdb";
 import * as tvmaze from "./tvmaze";
 import * as youtube from "./youtube";
 import * as news from "./news";
@@ -6,12 +6,13 @@ import * as weather from "./weather";
 
 export const API = {
   movies: {
-    search: omdb.searchMovies,
-    details: omdb.getMovieDetails,
+    trending: tmdb.getTrendingMovies,
+    details: tmdb.getMovieDetails,
+    trailer: tmdb.getMovieTrailer,
   },
 
   tv: {
-    search: tvmaze.searchShows,
+    popular: tvmaze.getPopularShows,
   },
 
   trailer: youtube.getTrailer,

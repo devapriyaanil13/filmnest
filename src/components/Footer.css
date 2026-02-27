@@ -1,37 +1,42 @@
 .footer {
-  background: #000;
-  padding: 80px 120px 30px;
-  border-top: 2px solid var(--gold);
+  background: var(--surface);
   color: var(--text);
+  margin-top: 100px;
+  padding-top: 60px;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
 }
 
 .footer-container {
   display: flex;
   justify-content: space-between;
-  gap: 60px;
-  margin-bottom: 40px;
+  padding: 0 100px 50px 100px;
+  gap: 40px;
 }
 
+/* Brand */
 .footer-brand h2 {
-  color: var(--gold);
-  margin-bottom: 10px;
+  color: red;
 }
 
 .footer-brand p {
   color: var(--subtext);
+  max-width: 300px;
+  line-height: 1.6;
 }
 
+/* Section Titles */
 .footer-links h4,
-.footer-about h4 {
+.footer-info h4 {
   color: var(--gold);
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
+
 
 .footer-links a {
   display: block;
-  color: var(--text);
-  text-decoration: none;
   margin-bottom: 10px;
+  text-decoration: none;
+  color: var(--subtext);
   transition: 0.3s;
 }
 
@@ -39,13 +44,17 @@
   color: var(--gold);
 }
 
-.footer-about p {
+/* Info Text */
+.footer-info p {
   color: var(--subtext);
+  margin-bottom: 10px;
 }
 
+
 .footer-bottom {
-  border-top: 1px solid #333;
-  padding-top: 20px;
   text-align: center;
+  padding: 20px;
+  border-top: 1px solid rgba(212, 175, 55, 0.15);
+  font-size: 14px;
   color: var(--subtext);
 }

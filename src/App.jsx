@@ -6,7 +6,8 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import MovieDetails from "./pages/MovieDetails";
-import Watchlist from "./pages/Watchlist";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/movie/:id" element={<MovieDetails />} />
-        <Route path="/watchlist" element={<Watchlist />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
 
       <Footer />

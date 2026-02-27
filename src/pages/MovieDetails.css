@@ -19,3 +19,10 @@
   border-radius: 8px;
   margin-right: 10px;
 }
+.trailer {
+  margin-top: 30px;
+}
+
+.trailer iframe {
+  border-radius: 12px;
+}
