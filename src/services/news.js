@@ -8,7 +8,7 @@ export const getEntertainmentNews = async () => {
       params: {
         category: "entertainment",
         lang: "en",
-        country: "us",
+        country: "in",
         max: 10,
         apikey: NEWS_KEY,
       },
@@ -16,7 +16,7 @@ export const getEntertainmentNews = async () => {
 
     return res.data.articles;
   } catch (error) {
-    console.error("GNews API Error:", error);
+    console.error("GNews Error:", error);
     return [];
   }
 };
