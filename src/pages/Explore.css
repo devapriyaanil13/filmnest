@@ -1,23 +1,383 @@
+/* ============================================================
+   EXPLORE.CSS — FilmNest  |  Masonry Grid Edition
+   Theme : deep noir · gold accent · clean hierarchy
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ─── tokens ─────────────────────────────────────────────── */
+:root {
+  --bg       : #07080d;
+  --card     : #0f1219;
+  --card2    : #141922;
+  --line     : rgba(255,255,255,0.07);
+  --gold     : #e8c46a;
+  --red      : #c9533a;
+  --txt      : #f0ede5;
+  --dim      : #6e7485;
+  --err      : #e06060;
+
+  --sans     : 'DM Sans', sans-serif;
+  --display  : 'Bebas Neue', sans-serif;
+
+  --snap     : cubic-bezier(.16,1,.3,1);
+  --bounce   : cubic-bezier(.34,1.56,.64,1);
+}
+
+/* ─── keyframes ──────────────────────────────────────────── */
+@keyframes up   { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:none} }
+@keyframes wide { from{transform:scaleX(0)} to{transform:scaleX(1)} }
+@keyframes spin { to{transform:rotate(360deg)} }
+@keyframes pop  { from{opacity:0;transform:translateY(20px) scale(.95)} to{opacity:1;transform:none} }
+@keyframes glow { 0%,100%{opacity:.55} 50%{opacity:1} }
+@keyframes flow {
+  0%  {background-position:0%   50%}
+  100%{background-position:200% 50%}
+}
+@keyframes sweep {
+  from{left:-70%}
+  to  {left:130%}
+}
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  30%    {transform:translateX(-5px)}
+  70%    {transform:translateX( 5px)}
+}
+
+/* ─── page shell ─────────────────────────────────────────── */
+.explore {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--txt);
+  font-family: var(--sans);
+  overflow-x: hidden;
+
+  /* grain */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  background-attachment: fixed;
+}
+
+/* soft ambient light */
+.explore::before {
+  content:'';
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 60% 55% at 75%  5%, rgba(232,196,106,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 50% at  8% 90%, rgba(201, 83, 58,.05) 0%, transparent 60%);
+  pointer-events:none; z-index:0;
+}
+
+/* ─── hero header ────────────────────────────────────────── */
+.explore > h1.explore-title {
+  /* sit inside the explore div as the very first element */
+  position: relative;
+  z-index: 2;
+  font-family: var(--display);
+  font-size: clamp(58px, 7.5vw, 108px);
+  letter-spacing: .04em;
+  line-height: .88;
+  margin: 0;
+  padding: 88px 80px 0;
+
+  background: linear-gradient(148deg, #fff 10%, rgba(255,255,255,.82) 45%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  animation: up .9s var(--snap) .05s both;
+}
+
+/* rule under title */
+.explore > h1.explore-title::after {
+  content:'';
+  display:block;
+  width:64px; height:2px;
+  margin-top:20px;
+  background: linear-gradient(to right, var(--gold), var(--red), transparent);
+  transform-origin: left;
+  animation: wide .7s var(--snap) .55s both;
+  -webkit-text-fill-color: unset;
+}
+
+/* ─── search bar ─────────────────────────────────────────── */
 .search-container {
+  position: relative;
+  z-index: 2;
   display: flex;
-  justify-content: center;
-  margin: 60px 0;
+  align-items: center;
+  max-width: 660px;
+  margin: 40px 80px 0;
+  border-radius: 8px;
+  isolation: isolate;
+  animation: up .9s var(--snap) .22s both;
+}
+
+/* flowing border on focus */
+.search-container::before {
+  content:'';
+  position:absolute; inset:-1.5px;
+  border-radius:9px;
+  background: linear-gradient(90deg, var(--gold), var(--red), #9b72cf, var(--gold));
+  background-size:200% 100%;
+  opacity:0;
+  z-index:-1;
+  transition:opacity .35s;
+}
+.search-container:focus-within::before {
+  opacity:1;
+  animation: flow 2.2s linear infinite;
 }
 
 .search-container input {
-  width: 400px;
-  padding: 15px;
-  border-radius: 10px;
-  border: none;
-  background: var(--glass);
-  backdrop-filter: blur(10px);
-  color: white;
+  flex:1;
+  height:58px;
+  padding:0 26px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-right:none;
+  border-radius:8px 0 0 8px;
+  color:var(--txt);
+  font-family:var(--sans);
+  font-size:15px;
+  font-weight:300;
+  letter-spacing:.025em;
+  outline:none;
+  transition:background .3s, border-color .3s;
 }
+.search-container input::placeholder { color:var(--dim); font-style:italic; }
+.search-container input:focus        { background:#12161f; border-color:transparent; }
 
 .search-container button {
-  margin-left: 10px;
-  padding: 15px 25px;
+  height:58px;
+  padding:0 38px;
+  background:var(--gold);
+  border:none;
+  border-radius:0 8px 8px 0;
+  color:#07080d;
+  font-family:var(--display);
+  font-size:19px;
+  letter-spacing:.18em;
+  cursor:pointer;
+  flex-shrink:0;
+  position:relative;
+  overflow:hidden;
+  transition:background .3s, transform .28s var(--bounce), box-shadow .3s;
+}
+.search-container button::after {
+  content:'';
+  position:absolute;
+  top:0; left:-70%;
+  width:50%; height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.22),transparent);
+  transform:skewX(-14deg);
+  pointer-events:none;
+}
+.search-container button:hover {
+  background:#f0d07a;
+  transform:translateY(-2px);
+  box-shadow:0 10px 30px rgba(232,196,106,.32);
+}
+.search-container button:hover::after { animation:sweep .5s ease forwards; }
+.search-container button:active       { transform:scale(.97); }
+
+/* ─── divider ────────────────────────────────────────────── */
+.explore > .search-container + * {
+  margin-top: 64px;
+}
+
+/* ─── status / error ─────────────────────────────────────── */
+.status-text,
+.error-text {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:12px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  padding: 0 80px;
+  margin-bottom:36px;
+  position:relative;
+  z-index:2;
+}
+
+.status-text {
+  color:var(--dim);
+  animation: up .4s var(--snap) both;
+}
+.status-text::before {
+  content:'';
+  width:10px; height:10px;
+  border:1.5px solid var(--gold);
+  border-top-color:transparent;
+  border-radius:50%;
+  animation:spin .75s linear infinite;
+  flex-shrink:0;
+}
+
+.error-text {
+  color:var(--err);
+  animation:shake .4s var(--snap) both;
+}
+.error-text::before {
+  content:'!';
+  width:20px; height:20px;
+  border:1.5px solid var(--err);
+  border-radius:50%;
+  font-size:11px; font-weight:700;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  animation:glow 2s ease-in-out infinite;
+}
+
+/* ─── masonry grid ───────────────────────────────────────── */
+.movie-grid {
+  position: relative;
+  z-index: 2;
+  padding: 0 80px 100px;
+
+  columns: 5 180px;       /* browser-native masonry via CSS columns */
+  column-gap: 20px;
+}
+
+/* stagger each card */
+.movie-grid > * { break-inside: avoid; margin-bottom: 20px; }
+.movie-grid > *:nth-child(1)  { animation: pop .55s var(--snap) .04s both; }
+.movie-grid > *:nth-child(2)  { animation: pop .55s var(--snap) .09s both; }
+.movie-grid > *:nth-child(3)  { animation: pop .55s var(--snap) .14s both; }
+.movie-grid > *:nth-child(4)  { animation: pop .55s var(--snap) .18s both; }
+.movie-grid > *:nth-child(5)  { animation: pop .55s var(--snap) .22s both; }
+.movie-grid > *:nth-child(6)  { animation: pop .55s var(--snap) .26s both; }
+.movie-grid > *:nth-child(7)  { animation: pop .55s var(--snap) .30s both; }
+.movie-grid > *:nth-child(8)  { animation: pop .55s var(--snap) .33s both; }
+.movie-grid > *:nth-child(n+9){ animation: pop .55s var(--snap) .36s both; }
+
+/* Make every 3rd card taller for the masonry variation feel */
+.movie-grid > *:nth-child(3n+1) .movie-card img,
+.movie-grid > *:nth-child(3n+1) img { aspect-ratio: 2/3.6; }
+
+.movie-grid > *:nth-child(3n+2) .movie-card img,
+.movie-grid > *:nth-child(3n+2) img { aspect-ratio: 2/2.6; }
+
+.movie-grid > *:nth-child(3n)   .movie-card img,
+.movie-grid > *:nth-child(3n)   img { aspect-ratio: 2/3.1; }
+
+/* ─── movie card ─────────────────────────────────────────── */
+.movie-card {
+  background: var(--card);
+  border: 1px solid var(--line);
   border-radius: 10px;
-  background: var(--accent-2);
-  border: none;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform .38s var(--bounce),
+    box-shadow .38s,
+    border-color .3s;
+}
+
+/* bottom fade */
+.movie-card::before {
+  content:'';
+  position:absolute;
+  inset:0; top:35%;
+  background:linear-gradient(to top, rgba(7,8,13,.97) 0%, transparent 100%);
+  z-index:1;
+  pointer-events:none;
+  border-radius:0 0 10px 10px;
+}
+
+/* shine sweep */
+.movie-card::after {
+  content:'';
+  position:absolute;
+  top:0; left:-80%;
+  width:50%; height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.08),transparent);
+  transform:skewX(-14deg);
+  pointer-events:none;
+  z-index:3;
+}
+.movie-card:hover::after { animation:sweep .58s ease forwards; }
+
+.movie-card:hover {
+  transform:translateY(-10px) scale(1.02);
+  border-color:rgba(232,196,106,.3);
+  box-shadow:
+    0 24px 72px rgba(0,0,0,.65),
+    0 0 0 1px rgba(232,196,106,.1),
+    inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+/* poster */
+.movie-card img {
+  width:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .55s var(--snap), filter .4s;
+  filter:saturate(.82) brightness(.9);
+}
+.movie-card:hover img {
+  transform:scale(1.07);
+  filter:saturate(1.08) brightness(1.04);
+}
+
+/* title */
+.movie-card h4 {
+  position:relative;
+  z-index:2;
+  padding:10px 14px 4px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--txt);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  margin-top:auto;
+}
+
+/* rating */
+.movie-card p {
+  position:relative;
+  z-index:2;
+  padding:0 14px 13px;
+  font-size:12px;
+  font-weight:500;
+  color:var(--gold);
+  letter-spacing:.05em;
+}
+
+/* ─── scrollbar ──────────────────────────────────────────── */
+::-webkit-scrollbar       { width:5px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:rgba(232,196,106,.2); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:rgba(232,196,106,.42); }
+
+/* ─── responsive ─────────────────────────────────────────── */
+@media (max-width:1100px) {
+  .explore > h1.explore-title { padding: 72px 48px 0; }
+  .search-container           { margin: 36px 48px 0; }
+  .status-text, .error-text   { padding: 0 48px; }
+  .movie-grid                 { padding: 0 48px 80px; columns: 4 160px; }
+}
+
+@media (max-width:768px) {
+  .explore > h1.explore-title { padding: 60px 28px 0; }
+  .search-container           { margin: 32px 28px 0; max-width:100%; }
+  .status-text, .error-text   { padding: 0 28px; }
+  .movie-grid                 { padding: 0 28px 72px; columns: 3 140px; column-gap:14px; }
+  .movie-grid > * { margin-bottom:14px; }
+}
+
+@media (max-width:520px) {
+  .explore > h1.explore-title { padding: 48px 18px 0; font-size:52px; }
+  .search-container           { margin:28px 18px 0; flex-direction:column; }
+  .search-container input     { border-right:1px solid var(--line); border-radius:8px; height:52px; }
+  .search-container button    { border-radius:8px; height:52px; width:100%; }
+  .status-text, .error-text   { padding: 0 18px; }
+  .movie-grid                 { padding:0 18px 60px; columns:2 140px; }
 }

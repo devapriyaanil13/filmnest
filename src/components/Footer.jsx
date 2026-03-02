@@ -20,8 +20,8 @@ function Footer() {
 
         <div>
           <h4>Built With</h4>
-          <p>React + Vite</p>
-          <p>TMDB API</p>
+          <p>Love for Movies</p>
+          <p>A website for the filmy people</p>
         </div>
 
       </div>

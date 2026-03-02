@@ -1,46 +1,287 @@
-.about {
-  padding: 80px 120px;
-  color: var(--text);
-  background: var(--bg);
-  min-height: 80vh;
+/* ============================================================
+   ABOUT.CSS — Cinematic Noir Theme (matches Home.css)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,600;1,9..40,300&display=swap');
+
+:root {
+  --bg:         #090b0f;
+  --surface:    #10131a;
+  --surface2:   #171c27;
+  --border:     rgba(255,255,255,0.06);
+  --accent:     #e8c46a;
+  --accent2:    #c9533a;
+  --text:       #eae8e1;
+  --muted:      #6b6f7a;
+  --glow:       rgba(232, 196, 106, 0.15);
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ── Keyframes ──────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes borderTrace {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.5; }
+  50%       { opacity: 1; }
+}
+
+@keyframes emojiFloat {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%       { transform: translateY(-8px) rotate(2deg); }
+}
+
+/* ── Wrapper ────────────────────────────────────────────── */
+.about {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(232,196,106,0.06), transparent);
+  background-attachment: fixed;
+}
+
+/* ── Hero ───────────────────────────────────────────────── */
 .about-hero {
-  max-width: 800px;
-  margin-bottom: 60px;
+  position: relative;
+  padding: 120px 60px 90px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  animation: fadeUp 0.8s var(--ease-smooth) both;
+
+  background:
+    linear-gradient(135deg, rgba(201,83,58,0.06) 0%, transparent 50%),
+    linear-gradient(to bottom, rgba(232,196,106,0.04), transparent);
+}
+
+/* Scanlines */
+.about-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.012) 2px,
+    rgba(255,255,255,0.012) 4px
+  );
+  pointer-events: none;
+}
+
+/* Ambient light orb */
+.about-hero::after {
+  content: '';
+  position: absolute;
+  right: -10%;
+  top: -30%;
+  width: 55%;
+  height: 180%;
+  background: radial-gradient(ellipse, rgba(232,196,106,0.055), transparent 60%);
+  pointer-events: none;
+  animation: float 10s ease-in-out infinite;
 }
 
 .about-hero h1 {
-  font-size: 42px;
-  color: var(--gold);
-  margin-bottom: 20px;
+  font-family: var(--font-display);
+  font-size: clamp(56px, 8vw, 108px);
+  letter-spacing: 0.04em;
+  line-height: 0.9;
+  position: relative;
+  z-index: 1;
+
+  background: linear-gradient(135deg, #fff 30%, var(--accent) 70%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  animation: fadeUp 0.9s var(--ease-smooth) 0.1s both;
 }
 
 .about-hero p {
-  font-size: 18px;
-  color: var(--subtext);
-  line-height: 1.6;
+  margin-top: 24px;
+  max-width: 560px;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.9s var(--ease-smooth) 0.25s both;
 }
 
+/* Gold underline accent on hero paragraph */
+.about-hero p::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(to right, var(--accent), transparent);
+  margin-top: 24px;
+  opacity: 0.6;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* ── Cards Grid ─────────────────────────────────────────── */
 .about-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  padding: 72px 60px;
+  animation: fadeUp 0.8s var(--ease-smooth) 0.35s both;
 }
 
+/* ── Card ───────────────────────────────────────────────── */
 .about-card {
+  position: relative;
   background: var(--surface);
-  padding: 30px;
-  border-radius: 12px;
-  border-left: 4px solid var(--yellow);
-  transition: 0.3s;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 36px 32px;
+  overflow: hidden;
+  cursor: default;
+  transition:
+    transform 0.38s var(--ease-bounce),
+    box-shadow 0.35s var(--ease-smooth),
+    border-color 0.3s;
+}
+
+/* Animated gradient border on hover */
+.about-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 9px;
+  background: linear-gradient(
+    120deg,
+    var(--accent),
+    var(--accent2),
+    var(--accent)
+  );
+  background-size: 200% 200%;
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 0.35s;
+  animation: borderTrace 3s ease infinite;
+}
+
+.about-card:hover::before {
+  opacity: 1;
+}
+
+/* Inner fill to sit on top of border gradient */
+.about-card::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  background: var(--surface);
+  border-radius: 7px;
+  z-index: 0;
 }
 
 .about-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-12px) scale(1.01);
+  box-shadow:
+    0 24px 64px rgba(0,0,0,0.55),
+    0 0 40px rgba(232,196,106,0.08);
 }
 
+/* All card children sit above pseudo-elements */
+.about-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ambient inner glow on hover */
+.about-card .card-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(232,196,106,0.05), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.about-card:hover .card-glow {
+  opacity: 1;
+}
+
+/* ── Card Content ───────────────────────────────────────── */
 .about-card h3 {
-  color: var(--gold);
-  margin-bottom: 15px;
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: 0.07em;
+  color: var(--text);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  /* Emoji float */
+  .about-card:hover & { animation: emojiFloat 2s ease-in-out infinite; }
+}
+
+/* Pull emoji out for individual animation */
+.about-card h3 {
+  position: relative;
+}
+
+.about-card:hover h3 {
+  color: var(--accent);
+  transition: color 0.3s;
+}
+
+.about-card p {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+  transition: color 0.3s;
+}
+
+.about-card:hover p {
+  color: rgba(234, 232, 225, 0.75);
+}
+
+/* Stagger card entrance */
+.about-grid .about-card:nth-child(1) { animation: fadeUp 0.7s var(--ease-smooth) 0.35s both; }
+.about-grid .about-card:nth-child(2) { animation: fadeUp 0.7s var(--ease-smooth) 0.48s both; }
+.about-grid .about-card:nth-child(3) { animation: fadeUp 0.7s var(--ease-smooth) 0.61s both; }
+
+/* ── Scrollbar (matches Home) ───────────────────────────── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(232,196,106,0.25); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(232,196,106,0.45); }
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .about-hero { padding: 80px 24px 60px; }
+  .about-grid { padding: 48px 24px; gap: 16px; }
+}
+
+@media (max-width: 480px) {
+  .about-hero h1 { font-size: 52px; }
+  .about-grid { grid-template-columns: 1fr; }
 }

@@ -28,6 +28,16 @@ export const getTrendingMovies = async () => {
     return [];
   }
 };
+export const searchMovies = async (query) => {
+  const res = await axios.get(`${BASE_URL}/search/movie`, {
+    params: {
+      api_key: API_KEY,
+      query: query,
+    },
+  });
+
+  return res.data.results;
+};
 export const getMovieTrailer = async (id) => {
   try {
     const res = await axios.get(

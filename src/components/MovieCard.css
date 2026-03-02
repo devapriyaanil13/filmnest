@@ -1,18 +1,159 @@
+/* ============================================================
+   MOVIECARD.CSS — FilmNest  |  Matches actual JSX structure
+   .movie-card > img + .movie-info > h3 + p
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --card    : #0f1219;
+  --line    : rgba(255,255,255,0.07);
+  --gold    : #e8c46a;
+  --txt     : #f0ede5;
+  --sans    : 'DM Sans', sans-serif;
+  --bounce  : cubic-bezier(.34,1.56,.64,1);
+  --snap    : cubic-bezier(.16,1,.3,1);
+
+  --card-w  : 190px;
+  --card-ih : 280px;   /* image height */
+}
+
+@keyframes shine {
+  from { left: -80%; }
+  to   { left: 130%; }
+}
+
+/* ── Card ── */
 .movie-card {
+  width: var(--card-w);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
-  color: var(--text);
-  transition: 0.3s;
-}
-
-.movie-card img {
-  width: 100%;
-  border-radius: 8px;
-}
-
-.movie-card h4 {
-  margin-top: 10px;
+  color: var(--txt);
+  cursor: pointer;
+  border-radius: 10px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  position: relative;
+  transition:
+    transform    0.38s var(--bounce),
+    box-shadow   0.38s ease,
+    border-color 0.3s  ease;
 }
 
 .movie-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-12px);
+  border-color: rgba(232,196,106,0.3);
+  box-shadow:
+    0 28px 64px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(232,196,106,0.1);
+}
+
+/* ── Image — contained, clips zoom ── */
+.movie-card img {
+  width: 100%;
+  height: var(--card-ih);
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  flex-shrink: 0;
+  border-radius: 9px 9px 0 0;
+  overflow: hidden;           /* clip at image level */
+  filter: saturate(0.85) brightness(0.9);
+  transition: transform 0.55s var(--snap), filter 0.4s ease;
+}
+
+.movie-card:hover img {
+  transform: scale(1.06);
+  filter: saturate(1.1) brightness(1.04);
+}
+
+/* Shine on image */
+.movie-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -80%;
+  width: 50%;
+  height: var(--card-ih);
+  background: linear-gradient(
+    105deg, transparent, rgba(255,255,255,0.07), transparent
+  );
+  transform: skewX(-14deg);
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 9px 9px 0 0;
+}
+.movie-card:hover::after {
+  animation: shine 0.6s ease forwards;
+}
+
+/* ── Info block — always visible below image ── */
+.movie-info {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--card);
+  border-radius: 0 0 9px 9px;
+  flex-shrink: 0;
+  /* fixed height so all cards are the same total height */
+  height: 58px;
+  justify-content: center;
+  overflow: hidden;           /* prevents text from growing the card */
+}
+
+/* ── Title ── */
+.movie-info h3 {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--txt);
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  /* single line, ellipsis */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.25s;
+}
+
+.movie-card:hover .movie-info h3 { color: #fff; }
+
+/* ── Year ── */
+.movie-info p {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Focus ring */
+.movie-card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ── Grid ── */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, var(--card-w));
+  gap: 24px 20px;
+  align-items: start;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  :root { --card-w: 150px; --card-ih: 220px; }
+}
+@media (max-width: 480px) {
+  :root { --card-w: 128px; --card-ih: 188px; }
+  .movie-info h3 { font-size: 12px; }
+  .movie-info p  { font-size: 11px; }
 }
