@@ -1,23 +1,22 @@
 import axios from "axios";
 
 const NEWS_KEY = import.meta.env.VITE_NEWS_KEY;
-const BASE_URL = "https://gnews.io/api/v4/search";
 
 export const getEntertainmentNews = async () => {
   try {
-    const res = await axios.get(BASE_URL, {
+    const res = await axios.get("https://gnews.io/api/v4/top-headlines", {
       params: {
-        q: "entertainment",   // ✅ MUST use q
+        category: "entertainment",
         lang: "en",
         country: "us",
-        max: 6,
-        apikey: API_KEY       // ✅ lowercase apikey
+        max: 10,
+        apikey: NEWS_KEY,
       },
     });
 
-    return res.data.articles || [];
+    return res.data.articles;
   } catch (error) {
     console.error("GNews API Error:", error);
-    return [];   // ❗ DO NOT throw
+    return [];
   }
 };

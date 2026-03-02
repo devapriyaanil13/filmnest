@@ -8,6 +8,7 @@ import Explore from "./pages/Explore";
 import MovieDetails from "./pages/MovieDetails";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+console.log("TMDB KEY =", import.meta.env.VITE_TMDB_KEY);
 
 function App() {
   return (
