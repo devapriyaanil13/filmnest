@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_KEY = "fd62a41e6d6326fde103e65fe6af7e33";
+const NEWS_KEY = import.meta.env.VITE_NEWS_KEY;
 const BASE_URL = "https://gnews.io/api/v4/search";
 
 export const getEntertainmentNews = async () => {
