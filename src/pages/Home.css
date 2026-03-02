@@ -171,81 +171,51 @@
 /* ── Movie Grid ─────────────────────────────────────────── */
 .movie-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fill, 190px);
   gap: 20px;
+  align-items: start;
 }
 
 /* ── Movie Card ─────────────────────────────────────────── */
-.movie-card,
-.tv-card {
+.movie-card {
   position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
+  border-radius: 8px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  flex-shrink: 0;
   transition:
     transform 0.35s var(--ease-bounce),
     border-color 0.3s,
     box-shadow 0.3s;
 }
 
-.movie-card:hover,
-.tv-card:hover {
-  transform: translateY(-10px) scale(1.02);
+.movie-card:hover {
+  transform: translateY(-10px);
   border-color: rgba(232,196,106,0.35);
   box-shadow:
-    0 20px 60px rgba(0,0,0,0.6),
-    0 0 0 1px rgba(232,196,106,0.15),
-    inset 0 1px 0 rgba(255,255,255,0.06);
+    0 24px 64px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(232,196,106,0.12);
 }
 
-.movie-card img,
-.tv-card img {
+.movie-card > img {
   width: 100%;
-  aspect-ratio: 2/3;
+  height: 240px;
   object-fit: cover;
+  object-position: center top;
   display: block;
+  flex-shrink: 0;
+  border-radius: 7px 7px 0 0;
+  filter: saturate(0.88) brightness(0.92);
   transition: transform 0.5s var(--ease-smooth), filter 0.3s;
-  filter: saturate(0.9) brightness(0.95);
 }
 
-.movie-card:hover img,
-.tv-card:hover img {
+.movie-card:hover > img {
   transform: scale(1.06);
-  filter: saturate(1.1) brightness(1.05);
-}
-
-/* Shine sweep on hover */
-.movie-card::before,
-.tv-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    105deg,
-    transparent 30%,
-    rgba(255,255,255,0.08) 50%,
-    transparent 70%
-  );
-  background-size: 200% 100%;
-  background-position: -200% 0;
-  z-index: 2;
-  transition: background-position 0.5s ease;
-  pointer-events: none;
-}
-
-.movie-card:hover::before,
-.tv-card:hover::before {
-  background-position: 200% 0;
-}
-
-.movie-card h4,
-.movie-card p,
-.tv-card p {
-  padding: 10px 12px;
-  position: relative;
-  z-index: 1;
+  filter: saturate(1.1) brightness(1.04);
 }
 
 .movie-card h4 {
@@ -255,29 +225,118 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  background: linear-gradient(to top, var(--surface) 0%, transparent);
-  padding-top: 8px;
-  margin-top: -2px;
+  padding: 10px 12px 3px;
+  margin: 0;
 }
 
 .movie-card p {
   font-size: 12px;
   color: var(--accent);
-  padding-top: 0;
-  padding-bottom: 12px;
   font-weight: 600;
   letter-spacing: 0.04em;
+  padding: 0 12px 12px;
+  margin: 0;
+  white-space: nowrap;
 }
 
+/* ── TV Card — matches movie card exactly ────────────────── */
+.tv-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  width: 190px;
+  flex-shrink: 0;
+  transition:
+    transform 0.35s var(--ease-bounce),
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+
+.tv-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(232,196,106,0.35);
+  box-shadow:
+    0 24px 64px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(232,196,106,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* Image — same treatment as movie card */
+.tv-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  flex-shrink: 0;
+  border-radius: 7px 7px 0 0;
+  filter: saturate(0.88) brightness(0.92);
+  transition: transform 0.5s var(--ease-smooth), filter 0.3s;
+}
+
+.tv-card:hover img {
+  transform: scale(1.06);
+  filter: saturate(1.1) brightness(1.04);
+}
+
+/* Shine sweep */
+.tv-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -80%;
+  width: 50%; height: 280px;
+  background: linear-gradient(
+    105deg, transparent, rgba(255,255,255,0.07), transparent
+  );
+  transform: skewX(-14deg);
+  pointer-events: none;
+  z-index: 2;
+  border-radius: 7px 7px 0 0;
+}
+.tv-card:hover::after {
+  left: 130%;
+  transition: left 0.55s ease;
+}
+
+/* Title — white, same as movie-card h4 */
+.tv-card p:first-of-type,
 .tv-card p {
-  font-size: 12px;
+  padding: 10px 12px 3px;
+  margin: 0;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--text);
+  color: var(--text);           /* white — same as movie title */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-bottom: 12px;
-  opacity: 0.85;
+  flex-shrink: 0;
+  transition: color 0.25s;
+  height: auto;
+  display: block;
+  align-items: unset;
+  border-radius: 0;
+  background: none;
+}
+
+.tv-card:hover p { color: #fff; }
+
+/* Genre / network tag — gold, same as movie-card p rating */
+.tv-card span,
+.tv-card small {
+  display: block;
+  padding: 0 12px 12px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);         /* gold — same as movie year */
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── News Grid ──────────────────────────────────────────── */
